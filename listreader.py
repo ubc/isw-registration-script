@@ -11,10 +11,21 @@ class Person:
 	lastname = ""
 	email = ""
 
-	def __init__(self, firstname, lastname, email):
+	def __init__(self, firstname, lastname, email, number='', address1='', address2='',	city='', state='', zip='', country='', institution='', degree='', faculty='', department=''):
 		self.firstname = firstname
 		self.lastname = lastname
 		self.email = email
+		self.number = number
+		self.address1 = address1
+		self.address2 = address2
+		self.city = city
+		self.state = state
+		self.zip = zip
+		self.country = country
+		self.institution = institution
+		self.degree = degree
+		self.faculty = faculty
+		self.department = department
 
 	# emails are more unique, check that it matches
 	def __eq__(self, other):
@@ -75,7 +86,7 @@ def readRegistrants(csvreader):
 		# skip the rest of the file once we've reached summary row
 		elif row[0].lower().find("registered") >= 0:
 			break
-		person = Person(row[0], row[1], row[2])
+		person = Person(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13])
 		ret.append(person)
 	return ret
 

@@ -33,15 +33,15 @@ def process_files():
 	waitlist = listreader.readWaitlist(listreader.getReader(waitlist_file))
 
 	# Remove ineligible registrants
-	removed_ineligible_registered = [person for person in registrants if person in ineligible_registered]
 	registrants = [person for person in registrants if person not in ineligible_registered]
-	removed_ineligible_attended = [person for person in registrants if person in ineligible_attended]
 	registrants = [person for person in registrants if person not in ineligible_attended]
 
 	# All registrants are eligible at this point, so add them into the pool once
 	pool = []
+	info = {}
 	for person in registrants:
 		pool.append(person)
+		info.setdefault(person.email, person)
 
 
 	# Insert people into the pool however many times they're on the waitlist
@@ -66,15 +66,20 @@ def process_files():
 	output_file_path = "results/" + isw_name + ".csv"
 	with open(output_file_path, 'wb') as output_file:
 		outputwriter = writer(output_file)
-		outputwriter.writerow(["First Name", "Last Name", "Email"])
+		outputwriter.writerow(["First Name", "Last Name", "Email", "Cell or Home Phone Number",	"Address (Street Address)",	"Address (Address Line 2)",
+							   "Address (City)", "Address (State / Province)", "Address (ZIP / Postal Code)", "Address (Country)", "Institution",
+							   "Degree", "Faculty", "Department"])
 		for person in ranking:
-			outputwriter.writerow([person.firstname, person.lastname, person.email])
+			user = info.get(person.email)
+			outputwriter.writerow([user.firstname, user.lastname, user.email, user.number, user.address1, user.address2,
+								   user.city, user.state, user.zip, user.country, user.institution,
+								   user.degree, user.faculty, user.department])
 
 	return dict(ranking=ranking, output_file=output_file_path)
 
 @route('/results/<filename>')
 def server_static(filename):
-    return static_file(filename, root='results/')
+	return static_file(filename, root='results/')
 
 # check that the file extensions are ones we accept
 def file_ext_ok(filename):
