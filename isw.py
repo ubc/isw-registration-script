@@ -68,12 +68,13 @@ def process_files():
 		outputwriter = writer(output_file)
 		outputwriter.writerow(["First Name", "Last Name", "Email", "Cell or Home Phone Number",	"Address (Street Address)",	"Address (Address Line 2)",
 							   "Address (City)", "Address (State / Province)", "Address (ZIP / Postal Code)", "Address (Country)", "Institution",
-							   "Degree", "Faculty", "Department"])
+							   "Degree", "Faculty", "Department", "Is this your first time submitting your name for an ISW workshop?",
+                               "Have you ever been employed OR received funds from UBC?"])
 		for person in ranking:
 			user = info.get(person.email)
 			outputwriter.writerow([user.firstname, user.lastname, user.email, user.number, user.address1, user.address2,
 								   user.city, user.state, user.zip, user.country, user.institution,
-								   user.degree, user.faculty, user.department])
+								   user.degree, user.faculty, user.department, user.firsttime, user.fund])
 
 	return dict(ranking=ranking, output_file=output_file_path)
 
