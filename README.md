@@ -58,3 +58,10 @@ Step 3: Running the Python server and Loading the User Interface
 3. Open your favorite web browser and go to ((Double check the url listed after running the command below)):
 
         localhost:8080
+
+## Docker
+
+    docker build -t isw .
+    docker run -rm -p 8080:8080 isw
+
+
